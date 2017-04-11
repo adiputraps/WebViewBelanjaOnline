@@ -1,3 +1,3 @@
 # LatihanReactNative1
-membuat aplikasi like / love
+membuat list sales
 aplikasi ini sudah jadi dan bisa langsung diterapkan dengan mengedit source code yang ada
