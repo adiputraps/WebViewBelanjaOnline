@@ -1,4 +1,4 @@
-package com.ch1p4;
+package com.webview;
 
 import com.facebook.react.ReactActivity;
 
@@ -10,6 +10,6 @@ public class MainActivity extends ReactActivity {
      */
     @Override
     protected String getMainComponentName() {
-        return "ch1p4";
+        return "WebView";
     }
 }

@@ -6,12 +6,12 @@
 
 import React, { Component } from 'react';
 import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  Image,
-  ListView,
-  View
+	TouchableOpacity,
+	WebView,
+	StyleSheet,
+	View,
+	Text
 } from 'react-native';
 import MainApp from './src/MainApp';
-AppRegistry.registerComponent('ch1p4', () => MainApp);
+import { AppRegistry } from 'react-native';
+AppRegistry.registerComponent('WebView', () => MainApp);

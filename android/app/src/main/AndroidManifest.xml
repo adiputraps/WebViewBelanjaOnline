@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.ch1p4"
+    package="com.webview"
     android:versionCode="1"
     android:versionName="1.0">
 

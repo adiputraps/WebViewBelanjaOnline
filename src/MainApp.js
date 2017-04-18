@@ -1,34 +1,46 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, ListView, Image, Text } from 'react-native';
-import data from './sales.json';
-
-const basketIcon = require('./images/basket.png');
+import { TouchableOpacity, StyleSheet, View, Text, Navigator } from 'react-native';
+import Browser from './BrowserView';
 
 class MainApp extends Component {
-  constructor(props) {
-    super(props);
-    var ds = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2
-    });
 
-    this.state = {
-      dataSource: ds.cloneWithRows(data),
-    };
+  state = {
+    links: [
+      {title:'Tokopedia', url: 'https://www.tokopedia.com'},
+      {title:'Buka Lapak', url: 'https://www.bukalapak.com/'},
+      {title:'Lazada', url: 'https://www.lazada.com/'},
+      {title:'OLX', url: 'https://olx.co.id/'},
+    ],
+  };
+
+  onPressButton(url) {
+    this.refs.navigator.push({ url });
   }
 
-  renderRow(record) {
+  renderButton = (btn, index) => {
     return (
-      <View style={styles.row}>
-        <View style={styles.iconContainer}>
-          <Image source={basketIcon} style={styles.icon} />
-        </View>
-        <View style={styles.info}>
-          <Text style={styles.items}>{record.items} Items</Text>
-          <Text style={styles.address}>{record.address}</Text>
-        </View>
-        <View style={styles.total}>
-          <Text style={styles.date}>{record.date}</Text>
-          <Text style={styles.price}>${record.total}</Text>
+      <TouchableOpacity
+        key={index}
+        onPress={() => this.onPressButton(btn.url)}
+        style={styles.btn}
+      >
+        <Text style={styles.text}>{btn.title}</Text>
+      </TouchableOpacity>
+    );
+  }
+
+  renderScene = (route, navigator) => {
+    if (route.url) {
+      return (
+        <Browser url={route.url} navigator={navigator} />
+      );
+    }
+
+    return (
+      <View style={styles.content}>
+        <Text>Situs Jual Beli Online</Text>
+        <View>
+          {this.state.links.map(this.renderButton)}
         </View>
       </View>
     );
@@ -36,80 +48,36 @@ class MainApp extends Component {
 
   render() {
     return (
-      <View style={styles.mainContainer}>
-        <Text style={styles.title}>Sales</Text>
-        <ListView
-          dataSource={this.state.dataSource}
-          renderRow={this.renderRow}
-        />
-      </View>
+      <Navigator
+        ref="navigator"
+        renderScene={this.renderScene}
+        initialRoute={{}}
+        configureScene={(route) => (
+          Navigator.SceneConfigs.FloatFromBottom
+        )}
+      />
     );
   }
 }
 
 const styles = StyleSheet.create({
-  mainContainer: {
+  content: {
     flex: 1,
-    backgroundColor: '#fff',
-  },
-  title: {
-    backgroundColor: '#0f1b29',
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
-    padding: 10,
-    paddingTop: 40,
-    textAlign: 'center',
-  },
-  row: {
-    borderColor: '#f1f1f1',
-    borderBottomWidth: 1,
-    flexDirection: 'row',
-    marginLeft: 10,
-    marginRight: 10,
-    paddingTop: 20,
-    paddingBottom: 20,
-  },
-  iconContainer: {
-    alignItems: 'center',
-    backgroundColor: '#feb401',
-    borderColor: '#feaf12',
-    borderRadius: 25,
-    borderWidth: 1,
     justifyContent: 'center',
-    height: 50,
-    width: 50,
+    alignItems: 'center',
   },
-  icon: {
-    tintColor: '#fff',
-    height: 22,
-    width: 22,
-  },
-  info: {
+  btn: {
     flex: 1,
-    paddingLeft: 25,
-    paddingRight: 25,
+    margin: 10,
+    backgroundColor: '#c0392b',
+    borderRadius: 3,
+    padding: 10,
+    paddingRight: 30,
+    paddingLeft: 30,
   },
-  items: {
-    fontWeight: 'bold',
-    fontSize: 16,
-    marginBottom: 5,
-  },
-  address: {
-    color: '#ccc',
-    fontSize: 14,
-  },
-  total: {
-    width: 80,
-  },
-  date: {
-    fontSize: 12,
-    marginBottom: 5,
-  },
-  price: {
-    color: '#1cad61',
-    fontSize: 25,
-    fontWeight: 'bold',
+  text: {
+    color: '#fff',
+    textAlign: 'center',
   },
 });
 
